@@ -1,0 +1,31 @@
+name: Deploy Nuxt 3 to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # 當 main 分支有新的 push 時觸發
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # 使用最新的 Ubuntu 環境
+
+    steps:
+      - name: Checkout repository # 步驟 1: 檢查程式碼
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js # 步驟 2: 設定 Node.js 環境
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22' # 選擇你的 Node.js 版本，建議使用 LTS 版本
+
+      - name: Install dependencies # 步驟 3: 安裝專案依賴
+        run: npm install
+
+      - name: Generate static files # 步驟 4: 建置 Nuxt 3 應用程式並生成靜態檔案
+        run: npm run generate # 或者 npm run build 根據你的需求，但對於靜態部署通常是 generate
+
+      - name: Deploy to GitHub Pages # 步驟 5: 部署到 GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # GitHub 提供預設 token
+          publish_dir: ./dist # Nuxt 3 靜態檔案通常會生成到 dist 資料夾
