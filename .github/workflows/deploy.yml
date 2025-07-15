@@ -1,9 +1,10 @@
-name: Deploy Nuxt 3 to GitHub Pages
+name: 部署至 GitHub Pages
 
 on:
   push:
     branches:
       - main # 當 main 分支有新的 push 時觸發
+  workflow_dispatch: # 允許手動觸發工作流程
 
 jobs:
   build-and-deploy:
